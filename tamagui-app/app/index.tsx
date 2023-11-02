@@ -58,16 +58,14 @@ export default function App () {
 
   async function handleInsertNewNote (submitEvent: NativeSyntheticEvent<TextInputSubmitEditingEventData>) {
 
-    const newNote: Note = {
-      uuid: randomUUID(),
-      description: newNoteDescription,
-      completed: false
-    }
-
-    setNewNoteDescription("")
-
+    if (newNoteDescription === '') return
+    if (newNoteDescription.trim() === '') return
+    
     await Note.new(db, newNoteDescription)
     await notesRevalidate()
+
+    // Clear input
+    setNewNoteDescription("")
   }
 
   function Item (info: ListRenderItemInfo<Note>) {
