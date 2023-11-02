@@ -88,7 +88,7 @@ export default function App () {
           </Checkbox.Indicator>
         </Checkbox>
 
-        <Text>
+        <Text flex={1}>
           {info.item.description}
         </Text>
 
@@ -96,7 +96,6 @@ export default function App () {
           chromeless
           icon={<MaterialCommunityIcons name="close" size={16}/>}
           size="$2"
-          marginLeft="auto"
           onPress={() => handleNoteDeleteBtnPress(info.item)}
         />
 
