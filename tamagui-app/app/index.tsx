@@ -1,19 +1,16 @@
 import React, { useEffect, useRef, useState } from "react"
-import { randomUUID } from 'expo-crypto'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 
 import {
   FlatList,
   ListRenderItemInfo,
   NativeSyntheticEvent,
-  TextInputSubmitEditingEventData
+  TextInputSubmitEditingEventData,
 } from "react-native"
 
 import {
-  ButtonIcon,
   Checkbox,
   Input,
-  ScrollView,
   Stack,
   Text,
   XGroup,
@@ -110,7 +107,7 @@ export default function App () {
   }
 
   return (
-    <YStack p="$5" space="$4">
+    <YStack p="$5" space="$4" height={"100%"}>
 
       <YStack space="$4">
         <Input
@@ -151,15 +148,16 @@ export default function App () {
 
       </YStack>
 
-      <FlatList
-        data={notes}
-        renderItem={Item}
-        ItemSeparatorComponent={Separator}
-        ListHeaderComponent={Separator}
-        style={{
-          height: "100%"
-        }}
-      />
+      <YStack flex={1}>
+        <FlatList
+          contentContainerStyle={{
+          }}
+          data={notes}
+          renderItem={Item}
+          ItemSeparatorComponent={Separator}
+          ListHeaderComponent={Separator}
+        />
+      </YStack>
 
     </YStack>
   )

@@ -1,5 +1,5 @@
 import { Slot, SplashScreen } from "expo-router"
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context"
+import { SafeAreaView } from "react-native-safe-area-context"
 
 import { TamaguiProvider } from "tamagui"
 import config from "../tamagui.config"
@@ -29,7 +29,7 @@ export default function AppLayout () {
 
   // Render the children routes now that all the assets are loaded.
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{height: '100%'}}>
       <TamaguiProvider config={config}>
         <Slot/>
       </TamaguiProvider>
