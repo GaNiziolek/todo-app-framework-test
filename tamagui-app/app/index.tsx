@@ -106,6 +106,7 @@ export default function App () {
           value={newNoteDescription}
           onChangeText={setNewNoteDescription}
           onSubmitEditing={handleInsertNewNote}
+          placeholder="Type your note here"
         />
 
         <XGroup>
