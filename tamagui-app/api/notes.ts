@@ -57,7 +57,6 @@ export class Note {
     return result.insertId !== 0
   }
 
-
   static async getAll (db: SQLite.SQLiteDatabase, filters: INotesGetAllFilters) {
 
     // Build the query
@@ -151,6 +150,30 @@ export class Note {
     console.debug(`Note ${this.uuid} marked as incompleted`)
 
     this.completed = false
+  }
+
+  async delete (db: SQLite.SQLiteDatabase) {
+
+    const query: SQLite.Query = {
+      sql: `
+        DELETE FROM notes
+         WHERE uuid = ?
+      `,
+      args: [
+        this.uuid
+      ]
+    }
+  
+    // Execute and wait to the query return
+    const result = (await db.execAsync([query], false))[0]
+  
+    // execAsync can return `SQLite.ResultSetError` or `SQLite.ResultSet types`
+    // this ensure that if SQLite.ResultSetError
+    if ("error" in result) {
+      throw result.error
+    }
+
+    console.debug(`Note ${this.uuid} deleted`)
   }
 }
 

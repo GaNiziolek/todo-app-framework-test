@@ -56,6 +56,12 @@ export default function App () {
     await notesRevalidate()
   }
 
+  async function handleNoteDeleteBtnPress (pressedNote: Note) {
+
+    await pressedNote.delete(db)
+    await notesRevalidate()
+  }
+
   async function handleInsertNewNote (submitEvent: NativeSyntheticEvent<TextInputSubmitEditingEventData>) {
 
     if (newNoteDescription === '') return
@@ -71,7 +77,7 @@ export default function App () {
   function Item (info: ListRenderItemInfo<Note>) {
 
     return (
-      <XStack space="$3" marginVertical="$4">
+      <XStack space="$3" marginVertical="$3" alignItems="center">
 
         <Checkbox
           checked={info.item.completed}
@@ -85,6 +91,14 @@ export default function App () {
         <Text>
           {info.item.description}
         </Text>
+
+        <Button
+          chromeless
+          icon={<MaterialCommunityIcons name="close" size={16}/>}
+          size="$2"
+          marginLeft="auto"
+          onPress={() => handleNoteDeleteBtnPress(info.item)}
+        />
 
       </XStack>
     )
