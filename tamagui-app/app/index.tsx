@@ -35,6 +35,7 @@ const db = Database.openDatabase()
 export default function App () {
 
   const [newNoteDescription, setNewNoteDescription] = useState("")
+  const [filterCompleted, setFilterCompleted] = useState<boolean>()
 
   
   useEffect(() => {
@@ -44,7 +45,7 @@ export default function App () {
   const {
     notes,
     notesRevalidate 
-  } = useNotes(db)
+  } = useNotes(db, filterCompleted)
 
   async function handleItemCheckboxPress (pressedNote: Note) {
     if (pressedNote.completed) {
@@ -108,15 +109,30 @@ export default function App () {
         />
 
         <XGroup>
-          <Button f={1} chromeless isPressed>
+          <Button
+            f={1}
+            chromeless
+            onPress={() => setFilterCompleted(undefined)}
+            isPressed={filterCompleted === undefined}
+          >
             All
           </Button>
 
-          <Button f={1} chromeless>
+          <Button
+            f={1}
+            chromeless
+            onPress={() => setFilterCompleted(false)}
+            isPressed={filterCompleted === false}
+          >
             Pending
           </Button>
 
-          <Button f={1} chromeless>
+          <Button
+            f={1}
+            chromeless
+            onPress={() => setFilterCompleted(true)}
+            isPressed={filterCompleted === true}
+          >
             Completed
           </Button>
         </XGroup>

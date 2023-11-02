@@ -17,6 +17,10 @@ export const ddl = `
 //   completed: boolean
 // }
 
+interface INotesGetAllFilters {
+  completed?: boolean
+}
+
 export class Note {
   uuid: string
   description: string
@@ -53,7 +57,8 @@ export class Note {
     return result.insertId !== 0
   }
 
-  static async getAll (db: SQLite.SQLiteDatabase) {
+
+  static async getAll (db: SQLite.SQLiteDatabase, filters: INotesGetAllFilters) {
 
     // Build the query
     const query: SQLite.Query = {
@@ -64,8 +69,13 @@ export class Note {
           description
         
         FROM notes
+
+        WHERE 1 = 1
+        ${filters.completed !== undefined ? ` AND completed = ? ` : ``}
       `,
-      args: []
+      args: [
+        filters.completed
+      ].filter(v => v !== undefined)
     }
 
     // Execute and wait to the query return
@@ -144,7 +154,7 @@ export class Note {
   }
 }
 
-export function useNotes (db: SQLite.SQLiteDatabase) {
+export function useNotes (db: SQLite.SQLiteDatabase, completed: boolean | undefined) {
 
   const [notes, setNotes] = useState<Note[]>([])
   const [notesError, setNotesError] = useState<any>()
@@ -154,7 +164,12 @@ export function useNotes (db: SQLite.SQLiteDatabase) {
     setNotesIsLoading(true)
 
     try {
-      const notes = await Note.getAll(db)
+      const notes = await Note.getAll(
+        db, 
+        {
+          completed
+        }
+      )
 
       setNotes(notes)
     } catch (err) {
@@ -166,7 +181,7 @@ export function useNotes (db: SQLite.SQLiteDatabase) {
 
   useEffect(() => {
     notesRevalidate()
-  }, [])
+  }, [completed])
 
   return {
     notes,
